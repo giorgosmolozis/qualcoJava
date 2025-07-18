@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="demo.mappers.CountryMapper">
+
+    <resultMap id="countryResultMap" type="demo.Entities.Country">
+        <id property="countryId" column="country_id"/>
+        <result property="name" column="name"/>
+        <result property="area" column="area"/>
+        <result property="nationalDay" column="national_day"/>
+        <result property="countryCode2" column="country_code2"/>
+        <result property="countryCode3" column="country_code3"/>
+        <result property="regionId" column="region_id"/>
+    </resultMap>
+
+    <select id="findAllCountries" resultMap="countryResultMap">
+        SELECT country_id, name, area, national_day, country_code2, country_code3, region_id
+        FROM countries
+    </select>
+
+    <select id="findCountryById" resultMap="countryResultMap">
+        SELECT country_id, name, area, national_day, country_code2, country_code3, region_id
+        FROM countries
+        WHERE country_id = #{countryId}
+    </select>
+
+
+
+</mapper>

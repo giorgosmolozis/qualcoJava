@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="demo.mappers.LanguageMapper">
+
+    <resultMap id="countryLanguageResultMap" type="demo.Entities.Language">
+        <result property="languageId" column="language_id"/>
+        <result property="language" column="language"/>
+    </resultMap>
+    <select id="findLanguageByCountryId" resultMap="countryLanguageResultMap">
+        SELECT languages.language
+        FROM languages
+        RIGHT JOIN country_languages ON languages.language_id = country_languages.language_id
+        RIGHT JOIN countries ON countries.country_id = country_languages.country_id
+        WHERE countries.country_id = #{countryId}
+    </select>
+</mapper>

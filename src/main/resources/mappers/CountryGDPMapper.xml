@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="demo.mappers.CountryGDPMapper">
+
+    <resultMap id="countryGDPResultMap" type="demo.Entities.CountryGDP">
+        <result property="name" column="name"/>
+        <result property="countryCode3" column="country_code3"/>
+        <result property="year" column="year"/>
+        <result property="population" column="population"/>
+        <result property="gdp" column="gdp"/>
+    </resultMap>
+
+    <select id="CountryGDPStats" resultMap="countryGDPResultMap">
+        select
+        countries.name,
+        countries.country_code3,
+        cs.year,
+        cs.population,
+        cs.gdp
+        FROM countries
+        JOIN country_stats cs ON countries.country_id = cs.country_id
+        WHERE (cs.gdp / cs.population) = (
+        SELECT MAX(cs2.gdp / cs2.population)
+        FROM country_stats cs2
+        WHERE cs2.country_id = cs.country_id
+        )
+    </select>
+
+</mapper>
